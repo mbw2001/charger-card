@@ -135,17 +135,21 @@ export class ChargerCardEditor extends LitElement {
     return html`
       <div class="card-config">
 
-      <strong>
-      ${localize('editor.instruction')}
-      </strong>
-
-        <paper-dropdown-menu label="${localize('editor.entity')}" @value-changed=${this._valueChanged} .configValue=${'entity'}>
-          <paper-listbox slot="dropdown-content" .selected=${allEntities.indexOf(this.get_config("entity"))}>
-            ${allEntities.map(entity => {
-              return html` <paper-item>${entity}</paper-item> `;
-            })}
-          </paper-listbox>
-        </paper-dropdown-menu>
+        <strong>${localize('editor.instruction')}</strong>
+      
+        <mwc-select
+          naturalMenuWidth
+          fixedMenuPosition
+          label="${localize('editor.entity')}"
+          .configValue=${'entity'}
+          .value=${this._entity}
+          @selected=${this._valueChanged}
+          @closed=${(ev) => ev.stopPropagation()}
+        >
+          ${entities.map((entity) => {
+            return html`<mwc-list-item .value=${entity}>${entity}</mwc-list-item>`;
+          })}
+        </mwc-select>
 
         <paper-dropdown-menu label="${localize('editor.brand')}" @value-changed=${this.setConfigDetails} .configValue=${'brand'}>
           <paper-listbox slot="dropdown-content" .selected=${cconst.CARDCONFIGTYPES.findIndex(brand => brand.domain === this.get_config("brand"))}>
